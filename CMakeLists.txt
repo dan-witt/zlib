@@ -215,10 +215,12 @@ endif()
 add_custom_command(OUTPUT copy_to_dist
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/lib/${ZLIB_OUTPUT_ARCH}
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/*.a ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/lib/${ZLIB_OUTPUT_ARCH}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib/${ZLIB_OUTPUT_ARCH}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib
 
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/zlib.h ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/zconf.h ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib/${ZLIB_OUTPUT_ARCH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/zconf.h ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/zlibConfig.cmake ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/Findzlib.cmake ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}
     COMMENT "Copying zlib artifact to distribution directory"
 )
 add_custom_target(dist ALL DEPENDS copy_to_dist zlibstatic)
