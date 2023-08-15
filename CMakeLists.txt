@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.4.4)
+cmake_minimum_required(VERSION 3.22)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 
 project(zlib C)
@@ -211,3 +211,15 @@ if(HAVE_OFF64_T)
     target_link_libraries(minigzip64 zlib)
     set_target_properties(minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
 endif()
+
+add_custom_command(OUTPUT copy_to_dist
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/lib/${ZLIB_OUTPUT_ARCH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/*.a ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/lib/${ZLIB_OUTPUT_ARCH}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib/${ZLIB_OUTPUT_ARCH}
+
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/zlib.h ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/zconf.h ${CMAKE_SOURCE_DIR}/dist/zlib/${VERSION}/include/zlib/${ZLIB_OUTPUT_ARCH}
+    COMMENT "Copying zlib artifact to distribution directory"
+)
+add_custom_target(dist ALL DEPENDS copy_to_dist zlibstatic)
+
