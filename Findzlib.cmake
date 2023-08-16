@@ -5,14 +5,16 @@ find_path(ZLIB_INCLUDE_DIR
          PATHS "${CMAKE_CURRENT_LIST_DIR}/include"
          NO_DEFAULT_PATH)
 
-if(ARM_ABI STREQUAL "x86")
-    set(ZLIB_ARCH "android-x86")
-elseif(ARM_ABI STREQUAL "x86_64")
-    set(ZLIB_ARCH "android-x86_64")
-elseif(ARM_ABI STREQUAL "")
-    set(ZLIB_ARCH "linux")    
+if(DEFINED ANDROID_ABI)
+  if(ANDROID_ABI STREQUAL "x86")
+          set(ZLIB_ARCH "android-x86")
+  elseif(ANDROID_ABI STREQUAL "x86_64")
+          set(ZLIB_ARCH "android-x86_64")
+  else()
+          set(ZLIB_ARCH ${ANDROID_ABI})
+  endif()
 else()
-    set(ZLIB_ARCH ${ARM_ABI})
+  set(ZLIB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
 find_library(ZLIB_LIBRARY

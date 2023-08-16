@@ -12,7 +12,7 @@
 	    "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
                 "ANDROID_NDK": "$env{ANDROID_NDK}",
-                "ANDROID_PLATFORM":"android-22",
+                "ANDROID_PLATFORM":"android-23",
                 "CMAKE_TOOLCHAIN_FILE": "$env{ANDROID_NDK}/build/cmake/android.toolchain.cmake"
             }
 	},
