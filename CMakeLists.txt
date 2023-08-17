@@ -212,6 +212,15 @@ if(HAVE_OFF64_T)
     set_target_properties(minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
 endif()
 
+if(NOT DEFINED ANDROID_ABI)
+    execute_process(
+      COMMAND ${CMAKE_C_COMPILER} -dumpmachine
+      OUTPUT_VARIABLE ZLIB_OUTPUT_ARCH
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+endif()
+
+
 add_custom_command(OUTPUT copy_to_dist
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/dist/zlib/lib/${ZLIB_OUTPUT_ARCH}
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/*.a ${CMAKE_SOURCE_DIR}/dist/zlib/lib/${ZLIB_OUTPUT_ARCH}

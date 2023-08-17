@@ -13,7 +13,15 @@ if(DEFINED ANDROID_ABI)
 	  set(ZLIB_ARCH ${ANDROID_ABI})
   endif()
 else()
-  set(ZLIB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
+    execute_process(
+      COMMAND ${CMAKE_C_COMPILER} -dumpmachine
+      OUTPUT_VARIABLE ZLIB_ARCH
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      RESULT_VARIABLE RESULT
+    )
+    if(RESULT)
+      message(FATAL_ERROR "Failed to determine the target triplet using -dumpmachine!")
+    endif()    	
 endif()
 
 # Set the include and library paths.
